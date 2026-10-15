@@ -1,0 +1,14 @@
+{
+    "editor.quickSuggestionsDelay": 10000000,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+    },
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.codeActionWidget.includeNearbyQuickFixes": false,
+    "editor.inlineSuggest.edits.allowCodeShifting": "never",
+    "editor.inlineSuggest.edits.renderSideBySide": "never",
+    "editor.inlineSuggest.enabled": false,
+    "terminal.integrated.suggest.inlineSuggestion": "alwaysOnTop"
+}

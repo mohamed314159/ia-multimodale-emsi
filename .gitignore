@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[oc]
+.ipynb_checkpoints/
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Fichiers trop lourds pour GitHub (>100 Mo)
+*.mp4
