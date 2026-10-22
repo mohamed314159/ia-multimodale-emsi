@@ -22,34 +22,61 @@ Bureau/Classroom/
   nouveau post, il ne récupère que les nouveautés.
 - 8 téléchargements en parallèle (réglable avec `--threads`).
 
-## Installation (une seule fois, ~5 minutes)
+## Installation (une seule fois, ~5 minutes) — gratuit, sans carte bancaire
 
-1. **Créer un identifiant Google** :
-   1. Ouvrez <https://console.cloud.google.com/> et créez un projet (ex. « classroom-dl »).
-   2. *API et services → Bibliothèque* : activez **Google Classroom API** et **Google Drive API**.
-   3. *API et services → Écran de consentement OAuth* : type « Externe », remplissez
-      le nom de l'app et votre e-mail, puis ajoutez votre adresse EMSI dans
-      **Utilisateurs test**.
-   4. *API et services → Identifiants → Créer des identifiants → ID client OAuth*,
-      type **Application de bureau**. Téléchargez le JSON et enregistrez-le sous
-      `classroom_download/credentials.json`.
-2. **Installer les dépendances** :
-   ```bash
-   pip install -r requirements.txt
-   ```
+Utilisez partout **le compte Google avec lequel vous ouvrez Classroom**
+(vérifiable sur classroom.google.com → photo en haut à droite).
+Ignorez toute bannière « Essai gratuit » / « Activer la facturation ».
 
-## Utilisation
+### 1. Créer le projet
+1. Ouvrir <https://console.cloud.google.com/> avec ce compte → accepter les conditions.
+2. En haut à gauche : **sélecteur de projet** → **Nouveau projet** → nom `classroom-dl` → **Créer**.
+3. Notification → **Sélectionner le projet**.
+
+### 2. Activer les API
+1. Barre de recherche : **Google Classroom API** → **Activer**.
+2. Barre de recherche : **Google Drive API** → **Activer**.
+
+### 3. Écran de consentement
+1. Barre de recherche : **Google Auth Platform** → **Commencer**.
+2. Nom `classroom-dl`, e-mail d'assistance = votre e-mail → **Suivant**.
+3. Audience : **Externe** → **Suivant**.
+4. Coordonnées : votre e-mail → **Suivant** → cocher l'acceptation → **Continuer** → **Créer**.
+5. Menu **Audience** → **Utilisateurs test** → **+ Add users** → votre adresse → **Enregistrer**.
+
+### 4. Créer l'identifiant
+1. Menu **Clients** → **+ Créer un client**.
+2. Type : **Application de bureau**, nom `classroom-dl`.
+3. **Laisser décochée** la case « Use this client for an AI-powered agent »
+   (elle concerne les agents IA ; ce script est un programme classique).
+4. **Créer** → **Télécharger le fichier JSON**.
+5. Renommer le fichier en **`credentials.json`** et le placer dans ce dossier
+   `classroom_download/`, à côté du script.
+
+### 5. Installer et lancer
+Depuis le dossier du dépôt :
+```bash
+pip install -r classroom_download/requirements.txt
+python classroom_download/download_classroom.py
+```
+Le navigateur s'ouvre :
+1. Choisir le compte Google de Classroom.
+2. « Google n'a pas validé cette application » → **Paramètres avancés** → **Accéder à classroom-dl**.
+3. Cocher toutes les autorisations → **Continuer**.
+
+Les fichiers arrivent dans **Bureau/Classroom**. En mode test, la connexion
+expire après 7 jours : le navigateur se rouvrira simplement.
+
+## Options
 
 ```bash
-python download_classroom.py                   # tous les cours actifs
-python download_classroom.py --cours "IA"      # seulement les cours contenant "IA"
-python download_classroom.py --archives        # inclut les cours archivés
-python download_classroom.py --dest "D:/Cours" # autre dossier
+python classroom_download/download_classroom.py --cours "IA"      # seulement les cours contenant "IA"
+python classroom_download/download_classroom.py --archives        # inclut les cours archivés
+python classroom_download/download_classroom.py --dest "D:/Cours" # autre dossier
 ```
 
-Au premier lancement, le navigateur s'ouvre pour vous connecter avec votre compte
-Classroom ; un fichier `token.json` est ensuite créé pour ne plus redemander.
-`credentials.json` et `token.json` sont dans le `.gitignore` : ne les publiez pas.
+`credentials.json` et `token.json` sont dans le `.gitignore`. **Ne partagez
+jamais `token.json`** : il donne accès à votre Classroom et à votre Drive.
 
 ## Si l'école bloque l'accès
 
