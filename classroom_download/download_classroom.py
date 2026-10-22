@@ -226,15 +226,18 @@ def main():
                         seen.add(file_id)
                         jobs.append((file_id, post_dir, m["driveFile"]["driveFile"].get("title", file_id)))
                 elif "link" in m:
-                    links.setdefault(course_dir, []).append(f"{title} : {m['link']['url']}")
+                    link = m["link"]
+                    links.setdefault(post_dir, []).append(f"{link.get('title') or 'Lien'} : {link['url']}")
                 elif "youtubeVideo" in m:
-                    links.setdefault(course_dir, []).append(
-                        f"{title} : {m['youtubeVideo'].get('alternateLink', '')}"
+                    video = m["youtubeVideo"]
+                    links.setdefault(post_dir, []).append(
+                        f"[Vidéo YouTube] {video.get('title', '')} : {video.get('alternateLink', '')}"
                     )
 
-    for course_dir, lines in links.items():
-        course_dir.mkdir(parents=True, exist_ok=True)
-        (course_dir / "liens.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    # Liens et vidéos : un liens.txt dans le dossier du post, à côté des fichiers.
+    for post_dir, lines in links.items():
+        post_dir.mkdir(parents=True, exist_ok=True)
+        (post_dir / "liens.txt").write_text("\n".join(dict.fromkeys(lines)) + "\n", encoding="utf-8")
 
     check_drive_api(creds)
     print(f"{len(jobs)} fichier(s) à vérifier, téléchargement...")

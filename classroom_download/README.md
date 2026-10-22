@@ -9,14 +9,17 @@ Bureau/Classroom/
 ├── IA Générative Multi-Modale - 5eme annee EMSI/
 │   ├── TP 1 - PyTorch/
 │   │   └── lab1.pdf
-│   ├── Cours - Introduction/
-│   │   └── Part 1 - Support.pdf
-│   └── liens.txt          # liens web et vidéos YouTube postés
+│   └── Cours - RAG/
+│       ├── Part 3-2- IA Générative Multimodale - RAG.pdf
+│       ├── rag.py
+│       └── liens.txt      # vidéos YouTube et liens web du post
 └── ...
 ```
 
 - Les dossiers de cours sont renommés : le code « 5IAD G1 » est retiré et
   « - 5eme annee EMSI » est ajouté à la fin (modifiable via `COURSE_SUFFIX`).
+- Les vidéos YouTube ne sont pas téléchargées : leur lien est écrit dans
+  `liens.txt`, dans le dossier du post.
 - Les Google Docs/Slides sont exportés en PDF, les Sheets en `.xlsx`.
 - Les fichiers déjà téléchargés sont ignorés : relancez le script après chaque
   nouveau post, il ne récupère que les nouveautés.
