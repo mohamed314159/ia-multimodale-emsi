@@ -35,6 +35,10 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive.readonly",
 ]
 
+# Google renvoie parfois un alias de scope (ex. coursework.me ->
+# student-submissions.me) : sans ceci, oauthlib lève une erreur.
+os.environ.setdefault("OAUTHLIB_RELAX_TOKEN_SCOPE", "1")
+
 HERE = Path(__file__).resolve().parent
 CREDENTIALS_FILE = HERE / "credentials.json"
 TOKEN_FILE = HERE / "token.json"
