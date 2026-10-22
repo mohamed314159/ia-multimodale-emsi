@@ -93,6 +93,18 @@ def safe_name(name, max_len=120):
     return name[:max_len] or "sans_titre"
 
 
+# Retire le code de groupe ("5IAD G1", "5 IAD-G1"...) et ajoute un suffixe lisible.
+GROUP_CODE = re.compile(r"\b5\s*[-_.]?\s*IAD\s*[-_.]?\s*G\s*1\b", re.IGNORECASE)
+COURSE_SUFFIX = "5eme annee EMSI"
+
+
+def course_folder_name(name):
+    name = GROUP_CODE.sub(" ", name or "")
+    name = re.sub(r"\(\s*\)|\[\s*\]", " ", name)
+    name = re.sub(r"\s+", " ", name).strip(" -_–|/,.")
+    return safe_name(f"{name} - {COURSE_SUFFIX}" if name else COURSE_SUFFIX)
+
+
 def list_all(method, key, **kwargs):
     items, token = [], None
     while True:
@@ -180,7 +192,7 @@ def main():
 
     jobs, links, seen = [], {}, set()
     for course in courses:
-        course_dir = dest / safe_name(course["name"])
+        course_dir = dest / course_folder_name(course["name"])
         print(f"- {course['name']}")
         for title, materials in collect_posts(classroom, course["id"]):
             post_dir = course_dir / safe_name(title, 80)

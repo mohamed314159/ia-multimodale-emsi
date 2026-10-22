@@ -6,7 +6,7 @@ et les range sur votre Bureau :
 
 ```
 Bureau/Classroom/
-├── IA Générative Multi-Modale/
+├── IA Générative Multi-Modale - 5eme annee EMSI/
 │   ├── TP 1 - PyTorch/
 │   │   └── lab1.pdf
 │   ├── Cours - Introduction/
@@ -15,6 +15,8 @@ Bureau/Classroom/
 └── ...
 ```
 
+- Les dossiers de cours sont renommés : le code « 5IAD G1 » est retiré et
+  « - 5eme annee EMSI » est ajouté à la fin (modifiable via `COURSE_SUFFIX`).
 - Les Google Docs/Slides sont exportés en PDF, les Sheets en `.xlsx`.
 - Les fichiers déjà téléchargés sont ignorés : relancez le script après chaque
   nouveau post, il ne récupère que les nouveautés.
