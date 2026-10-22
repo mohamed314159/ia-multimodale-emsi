@@ -148,7 +148,11 @@ def drive_service(creds):
 
 def download_file(creds, file_id, folder):
     drive = drive_service(creds)
-    meta = drive.files().get(fileId=file_id, fields="name,mimeType", supportsAllDrives=True).execute()
+    meta = (
+        drive.files()
+        .get(fileId=file_id, fields="name,mimeType", supportsAllDrives=True)
+        .execute(num_retries=3)
+    )
     name, mime = safe_name(meta["name"], 150), meta["mimeType"]
 
     if mime in EXPORTS:
@@ -169,11 +173,26 @@ def download_file(creds, file_id, folder):
     downloader = MediaIoBaseDownload(buffer, request, chunksize=8 * 1024 * 1024)
     done = False
     while not done:
-        _, done = downloader.next_chunk()
+        _, done = downloader.next_chunk(num_retries=3)
     tmp = target.with_suffix(target.suffix + ".part")
     tmp.write_bytes(buffer.getvalue())
     tmp.replace(target)
     return f"OK {target.relative_to(folder.parent.parent)}"
+
+
+def check_drive_api(creds):
+    """Arrête tout de suite si l'API Drive n'est pas activée dans le projet."""
+    try:
+        drive_service(creds).about().get(fields="user").execute(num_retries=3)
+    except HttpError as e:
+        if e.resp.status == 403:
+            raise SystemExit(
+                "L'API Google Drive n'est pas activée dans votre projet Google Cloud.\n"
+                f"Détail : {e.reason}\n"
+                "Activez-la (console.cloud.google.com → Google Drive API → Activer), "
+                "attendez 2-3 minutes puis relancez le script."
+            )
+        raise
 
 
 def main():
@@ -217,6 +236,7 @@ def main():
         course_dir.mkdir(parents=True, exist_ok=True)
         (course_dir / "liens.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
+    check_drive_api(creds)
     print(f"{len(jobs)} fichier(s) à vérifier, téléchargement...")
     new, errors = 0, 0
     with ThreadPoolExecutor(max_workers=args.threads) as pool:
@@ -228,11 +248,17 @@ def main():
                 errors += 1
                 print(f"  ! {futures[future]} : {e.reason}")
                 continue
+            except Exception as e:  # coupure réseau, timeout... : on passe au suivant
+                errors += 1
+                print(f"  ! {futures[future]} : {type(e).__name__} {e}")
+                continue
             if msg:
                 new += msg.startswith("OK")
                 print(f"  {msg}")
 
     print(f"Terminé : {new} nouveau(x) fichier(s), {errors} erreur(s). Dossier : {dest}")
+    if errors:
+        print("Relancez le script pour réessayer les fichiers en erreur (les autres sont ignorés).")
 
 
 if __name__ == "__main__":
