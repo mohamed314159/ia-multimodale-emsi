@@ -12,3 +12,7 @@ wheels/
 
 # Fichiers trop lourds pour GitHub (>100 Mo)
 *.mp4
+
+# Identifiants Google (ne jamais publier)
+credentials.json
+token.json
