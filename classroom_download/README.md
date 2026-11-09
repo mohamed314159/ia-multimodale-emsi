@@ -21,7 +21,8 @@ Bureau/Classroom/
 - Les vidéos YouTube ne sont pas téléchargées : leur lien est écrit dans
   `liens.txt`, dans le dossier du post.
 - Les Google Docs/Slides sont exportés en PDF, les Sheets en `.xlsx`.
-- Les fichiers déjà téléchargés sont ignorés : relancez le script après chaque
+- Les fichiers déjà téléchargés sont ignorés (liste gardée dans
+  `Classroom/.deja_telecharges.json`) : relancez le script après chaque
   nouveau post, il ne récupère que les nouveautés.
 - 8 téléchargements en parallèle (réglable avec `--threads`).
 

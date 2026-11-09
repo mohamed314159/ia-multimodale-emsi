@@ -14,6 +14,7 @@ Usage :
 
 import argparse
 import io
+import json
 import os
 import re
 import threading
@@ -94,7 +95,8 @@ def default_desktop():
 def safe_name(name, max_len=120):
     name = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name or "sans_titre")
     name = re.sub(r"\s+", " ", name).strip(" .")
-    return name[:max_len] or "sans_titre"
+    # Re-strip après la coupe : Windows retire les espaces/points finaux.
+    return name[:max_len].rstrip(" .") or "sans_titre"
 
 
 # Retire le code de groupe ("5IAD G1", "5 IAD-G1"...) et ajoute un suffixe lisible.
@@ -146,7 +148,25 @@ def drive_service(creds):
     return _local.drive
 
 
+# Liste des fichiers déjà téléchargés (id Drive -> chemin relatif) : permet de
+# sauter un fichier sans interroger Google, même s'il a été renommé à l'export.
+INDEX_NAME = ".deja_telecharges.json"
+
+
+def load_index(dest):
+    try:
+        return json.loads((dest / INDEX_NAME).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def save_index(dest, index):
+    dest.mkdir(parents=True, exist_ok=True)
+    (dest / INDEX_NAME).write_text(json.dumps(index, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def download_file(creds, file_id, folder):
+    """Renvoie (statut, chemin) avec statut "nouveau", "present" ou "ignore"."""
     drive = drive_service(creds)
     meta = (
         drive.files()
@@ -161,13 +181,13 @@ def download_file(creds, file_id, folder):
             name += ext
         request = drive.files().export_media(fileId=file_id, mimeType=export_mime)
     elif mime.startswith("application/vnd.google-apps."):
-        return f"ignoré (type non exportable) : {name}"
+        return "ignore", folder / name
     else:
         request = drive.files().get_media(fileId=file_id, supportsAllDrives=True)
 
     target = folder / name
     if target.exists():
-        return None
+        return "present", target
     folder.mkdir(parents=True, exist_ok=True)
     buffer = io.BytesIO()
     downloader = MediaIoBaseDownload(buffer, request, chunksize=8 * 1024 * 1024)
@@ -177,7 +197,7 @@ def download_file(creds, file_id, folder):
     tmp = target.with_suffix(target.suffix + ".part")
     tmp.write_bytes(buffer.getvalue())
     tmp.replace(target)
-    return f"OK {target.relative_to(folder.parent.parent)}"
+    return "nouveau", target
 
 
 def check_drive_api(creds):
@@ -239,25 +259,43 @@ def main():
         post_dir.mkdir(parents=True, exist_ok=True)
         (post_dir / "liens.txt").write_text("\n".join(dict.fromkeys(lines)) + "\n", encoding="utf-8")
 
-    check_drive_api(creds)
-    print(f"{len(jobs)} fichier(s) à vérifier, téléchargement...")
+    index = load_index(dest)
+    todo, already = [], 0
+    for fid, folder, title in jobs:
+        known = index.get(fid)
+        if (known and (dest / known).exists()) or (folder / safe_name(title, 150)).exists():
+            already += 1
+        else:
+            todo.append((fid, folder, title))
+    print(f"{len(jobs)} fichier(s) sur Classroom : {already} déjà présent(s), {len(todo)} à télécharger.")
+
     new, errors = 0, 0
-    with ThreadPoolExecutor(max_workers=args.threads) as pool:
-        futures = {pool.submit(download_file, creds, fid, folder): title for fid, folder, title in jobs}
-        for future in as_completed(futures):
-            try:
-                msg = future.result()
-            except HttpError as e:
-                errors += 1
-                print(f"  ! {futures[future]} : {e.reason}")
-                continue
-            except Exception as e:  # coupure réseau, timeout... : on passe au suivant
-                errors += 1
-                print(f"  ! {futures[future]} : {type(e).__name__} {e}")
-                continue
-            if msg:
-                new += msg.startswith("OK")
-                print(f"  {msg}")
+    if todo:
+        check_drive_api(creds)
+    try:
+        with ThreadPoolExecutor(max_workers=args.threads) as pool:
+            futures = {pool.submit(download_file, creds, fid, folder): (fid, title) for fid, folder, title in todo}
+            for future in as_completed(futures):
+                fid, title = futures[future]
+                try:
+                    status, target = future.result()
+                except HttpError as e:
+                    errors += 1
+                    print(f"  ! {title} : {e.reason}")
+                    continue
+                except Exception as e:  # coupure réseau, timeout... : on passe au suivant
+                    errors += 1
+                    print(f"  ! {title} : {type(e).__name__} {e}")
+                    continue
+                if status == "ignore":
+                    print(f"  - ignoré (type non exportable) : {target.name}")
+                    continue
+                index[fid] = target.relative_to(dest).as_posix()
+                if status == "nouveau":
+                    new += 1
+                    print(f"  OK {index[fid]}")
+    finally:
+        save_index(dest, index)
 
     print(f"Terminé : {new} nouveau(x) fichier(s), {errors} erreur(s). Dossier : {dest}")
     if errors:
