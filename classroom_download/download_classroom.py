@@ -19,6 +19,7 @@ import os
 import re
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
 from pathlib import Path
 
 from google.auth.transport.requests import Request
@@ -121,8 +122,14 @@ def list_all(method, key, **kwargs):
             return items
 
 
+def parse_time(value):
+    if not value:
+        return None
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
 def collect_posts(classroom, course_id):
-    """Renvoie [(titre du post, liste de materials)] pour un cours."""
+    """Renvoie [(titre du post, liste de materials, date de mise à jour)] pour un cours."""
     posts = []
     sources = [
         (classroom.courses().courseWork().list, "courseWork"),
@@ -137,7 +144,10 @@ def collect_posts(classroom, course_id):
             continue
         for item in items:
             title = item.get("title") or "Annonce - " + (item.get("text") or "")[:50]
-            posts.append((title, item.get("materials", [])))
+            # updateTime (et non creationTime) : un post modifié pour ajouter
+            # une pièce jointe compte comme nouveau.
+            updated = parse_time(item.get("updateTime") or item.get("creationTime"))
+            posts.append((title, item.get("materials", []), updated))
     return posts
 
 
@@ -158,6 +168,23 @@ def load_index(dest):
         return json.loads((dest / INDEX_NAME).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
+
+
+# Date du dernier lancement réussi : seuls les posts publiés ou modifiés
+# depuis sont regardés au lancement suivant.
+LAST_RUN_NAME = ".derniere_execution.txt"
+
+
+def load_last_run(dest):
+    try:
+        return parse_time((dest / LAST_RUN_NAME).read_text(encoding="utf-8").strip())
+    except (OSError, ValueError):
+        return None
+
+
+def save_last_run(dest, when):
+    dest.mkdir(parents=True, exist_ok=True)
+    (dest / LAST_RUN_NAME).write_text(when.isoformat(), encoding="utf-8")
 
 
 def save_index(dest, index):
@@ -221,9 +248,23 @@ def main():
     parser.add_argument("--cours", help="ne garder que les cours dont le nom contient ce texte")
     parser.add_argument("--archives", action="store_true", help="inclure les cours archivés")
     parser.add_argument("--threads", type=int, default=8, help="téléchargements en parallèle (défaut : 8)")
+    parser.add_argument("--depuis", help="ne prendre que les posts depuis cette date (AAAA-MM-JJ)")
+    parser.add_argument("--tout", action="store_true", help="ignorer la date du dernier lancement et tout vérifier")
     args = parser.parse_args()
 
     dest = args.dest or default_desktop() / "Classroom"
+    run_start = datetime.now(timezone.utc)
+    if args.depuis:
+        since = datetime.fromisoformat(args.depuis).astimezone()
+    elif args.tout:
+        since = None
+    else:
+        since = load_last_run(dest)
+    if since:
+        print(f"Posts publiés ou modifiés depuis le {since.astimezone():%d/%m/%Y %H:%M} uniquement "
+              "(--tout pour tout vérifier).")
+    else:
+        print("Vérification de tous les posts.")
     creds = get_credentials()
     classroom = build("classroom", "v1", credentials=creds, cache_discovery=False)
 
@@ -237,7 +278,9 @@ def main():
     for course in courses:
         course_dir = dest / course_folder_name(course["name"])
         print(f"- {course['name']}")
-        for title, materials in collect_posts(classroom, course["id"]):
+        for title, materials, updated in collect_posts(classroom, course["id"]):
+            if since and updated and updated < since:
+                continue
             post_dir = course_dir / safe_name(title, 80)
             for m in materials:
                 if "driveFile" in m:
@@ -299,7 +342,10 @@ def main():
 
     print(f"Terminé : {new} nouveau(x) fichier(s), {errors} erreur(s). Dossier : {dest}")
     if errors:
+        # Date non enregistrée : le prochain lancement reprendra ces posts.
         print("Relancez le script pour réessayer les fichiers en erreur (les autres sont ignorés).")
+    elif not args.cours:
+        save_last_run(dest, run_start)
 
 
 if __name__ == "__main__":

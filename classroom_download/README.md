@@ -20,6 +20,9 @@ Bureau/Classroom/
   « - 5eme annee EMSI » est ajouté à la fin (modifiable via `COURSE_SUFFIX`).
 - Les vidéos YouTube ne sont pas téléchargées : leur lien est écrit dans
   `liens.txt`, dans le dossier du post.
+- Seuls les posts publiés ou modifiés depuis le dernier lancement réussi sont
+  regardés (date gardée dans `Classroom/.derniere_execution.txt`). S'il y a eu
+  des erreurs, la date n'avance pas : le lancement suivant reprend ces posts.
 - Les Google Docs/Slides sont exportés en PDF, les Sheets en `.xlsx`.
 - Les fichiers déjà téléchargés sont ignorés (liste gardée dans
   `Classroom/.deja_telecharges.json`) : relancez le script après chaque
@@ -77,6 +80,8 @@ expire après 7 jours : le navigateur se rouvrira simplement.
 python classroom_download/download_classroom.py --cours "IA"      # seulement les cours contenant "IA"
 python classroom_download/download_classroom.py --archives        # inclut les cours archivés
 python classroom_download/download_classroom.py --dest "D:/Cours" # autre dossier
+python classroom_download/download_classroom.py --depuis 2026-11-01  # posts depuis le 1er novembre
+python classroom_download/download_classroom.py --tout            # tout revérifier, sans tenir compte de la date
 ```
 
 `credentials.json` et `token.json` sont dans le `.gitignore`. **Ne partagez
