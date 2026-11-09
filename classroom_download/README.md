@@ -87,6 +87,26 @@ python classroom_download/download_classroom.py --tout            # tout revéri
 `credentials.json` et `token.json` sont dans le `.gitignore`. **Ne partagez
 jamais `token.json`** : il donne accès à votre Classroom et à votre Drive.
 
+## Lancement automatique tous les jours à 8h00 (Windows)
+
+`lancer_classroom.bat` lance le script et écrit le résultat dans
+`classroom_download/dernier_lancement.log`.
+
+1. Lancez d'abord le script une fois à la main (pour créer `token.json`).
+2. Dans Google Auth Platform → **Audience** → **Publier l'application** → **Confirmer**
+   (sinon Google redemande la connexion tous les 7 jours et le lancement de 8h bloque).
+3. Ouvrez PowerShell dans le dossier du dépôt et lancez :
+   ```powershell
+   schtasks /Create /TN "Classroom 8h" /SC DAILY /ST 08:00 /TR "`"$PWD\classroom_download\lancer_classroom.bat`""
+   ```
+4. Pour tester tout de suite : `schtasks /Run /TN "Classroom 8h"`, puis ouvrez
+   `classroom_download\dernier_lancement.log`.
+
+Pour arrêter : `schtasks /Delete /TN "Classroom 8h" /F`.
+Le PC doit être allumé et votre session ouverte à 8h00 ; sinon, dans le
+Planificateur de tâches → tâche « Classroom 8h » → Propriétés → Paramètres, cochez
+« Exécuter la tâche dès que possible si un démarrage planifié est manqué ».
+
 ## Si l'école bloque l'accès
 
 Certains comptes Google Workspace scolaires interdisent les applications non
