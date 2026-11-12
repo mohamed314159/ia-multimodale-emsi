@@ -1,0 +1,19 @@
+Activité Pratique N°1- Mise en oeuvre du Framework PyTorch
+
+Publié le : 01/10/2026 10:43
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/ODg4NDYxNTU4NzE2/details
+
+Code classroom : yh4afp2q
+Partie 1 
+Reprendre en activité pratique la démo vidéo :
+- Démo vidéo : https://www.youtube.com/watch?v=vCbEmtrR0_w
+
+Partie 2 :
+
+Faire les 4 exercices (Voir la fin du notebook joint)
+
+- Exercice 1  (Regression) : Prédiction du salaire en fonction de l'ancienneté et le degrés d'expertise
+- Exercice 2 (Classification) : IRIS Dataset
+- Exercice 3 : MLP MNIST 
+- Exercice 4 : CNN MNIST

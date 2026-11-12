@@ -1,0 +1,30 @@
+Activité Pratique N°2 : Modèles génératifs
+
+Publié le : 15/10/2026 10:52
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/ODkyMzQ2MTY1Mjk1/details
+
+En utilisant PyTorch, Créer, entrainer, tester et explorer les modèles génératifs en utilisant le data set MNIST
+
+Configuration d’un environnement Python avec UV dans VS Code
+- Créer un dossier.
+- Ouvrir ce dossier dans VS Code.
+- Ouvrir le Terminal et exécuter les commandes suivantes :
+
+> uv init --python=3.11
+> uv venv
+> Activer l'environnement : .venv/Script/Activate ou source .venv/bin/activate
+> uv add ipykernel
+> uv add torch
+> uv add torchvision
+> uv add matplotlib
+
+- Créer un nouveau Notebook Jupyter (.ipynb).
+- Écrire votre code Python dans le Notebook.
+
+Première Partie :
+0. Créer un projet Python avec UV, ajouter les dépendances torch, torchvision, torcheval,... et créer nouveau notebook portant
+1. Charger Le dataset
+2. Créer, entrainer et évaluer le modèle discriminatif
+3. Créer, entrainer, évaluer et explorer un auto-encodeur simple
+4. Créer, entrainer, évaluer et explorer un VAE

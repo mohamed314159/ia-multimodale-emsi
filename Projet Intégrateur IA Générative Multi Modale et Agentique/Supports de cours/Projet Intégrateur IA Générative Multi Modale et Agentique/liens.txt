@@ -1,0 +1,2 @@
+[Vidéo YouTube] Projet Intégrateur IA Agentique Multi Modale et Agentique : https://www.youtube.com/watch?v=Ydf6VYL6jok
+[Vidéo YouTube] How to deal with Multi Modal RAG using CLIP et Chromadb : https://www.youtube.com/watch?v=w4CQ_Ws9mRE

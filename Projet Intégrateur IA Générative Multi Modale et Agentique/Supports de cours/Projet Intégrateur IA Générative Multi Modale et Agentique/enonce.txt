@@ -1,0 +1,55 @@
+Projet Intégrateur IA Générative Multi Modale et Agentique
+
+Publié le : 22/10/2026 08:14
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/ODkzNzMyOTU5MzEx/details
+
+Vidéo présentatrice du projet : https://www.youtube.com/watch?v=Ydf6VYL6jok
+
+MaintiDoc est un assistant destiné aux techniciens de maintenance. Il exploite des
+manuels, des procédures, des schémas et des photographies pour répondre à des questions techniques avec des références vérifiables. Il peut consulter l’historique des interventions et préparer un ticket de maintenance. La création effective du ticket nécessite une validation humaine.
+
+Exemple
+de demande : « Voici une photo du panneau de commande. Que signifie ce voyant orange ?  Consulte les dernières interventions et prépare un ticket si nécessaire. »
+
+Objectif général
+
+Construire progressivement un assistant documentaire destiné aux techniciens de maintenance, capable d’exploiter des documents et des photographies, de produire des réponses sourcées, de consulter un historique via MCP et de préparer des tickets soumis à validation humaine. Le système ne pilote aucun équipement et ne remplace pas un technicien habilité.
+Découpage :
+- Étape 1 — RAG Agentique Multi Modal
+- Étape 2 — Fine-Tuning
+- Étape 3 — Orchestration agentique et MCP
+- Étape 4 — Client Web, Telegram/Discord, sécurité et déploiement
+
+Première partie : Travail demandé
+1.   Sélection du document — Choisir un fichier PDF quelconque
+contenant du texte, des images et des tableaux. Un document technique dans le Domaine
+de la maintenance des machines. Pour ne pas se perdre, je vous recommande, dans
+un premier temps, d’utiliser le fichier pdf de l’article “Attention is
+all you need.pdf” ci joint 
+
+
+2.   Extraction et indexation — Utiliser LlamaIndex pour analyser le PDF et extraire le texte, les
+images et les tableaux. Produire des embeddings avec un modèle open source,
+puis stocker les vecteurs et métadonnées dans PGVector (PostgreSQL).
+
+
+3.   Traitement des images — Utiliser
+CLIP pour représenter les images et/ou faciliter leur recherche. Générer des
+descriptions textuelles des images et les indexer afin de les rendre
+interrogeables.
+
+
+4.    Question-réponse et génération — Construire un pipeline RAG avec un LLM open source, par exemple Qwen
+exécuté via Ollama. Récupérer les passages pertinents et produire une réponse
+fondée sur le contexte retrouvé.
+
+
+5.    Interface utilisateur — Créer
+une interface Streamlit permettant le chargement du PDF, la saisie des
+questions et l’affichage des réponses.
+
+
+6.    Orchestration agentique — Rendre
+le RAG agentique avec LangChain : sélection d’outils de recherche,
+interrogation de l’index, gestion du contexte et génération de la réponse.
