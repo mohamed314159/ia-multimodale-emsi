@@ -122,6 +122,31 @@ def list_all(method, key, **kwargs):
             return items
 
 
+def write_statement(post_dir, title, item):
+    """Écrit le texte du post (énoncé, consignes) dans enonce.txt."""
+    text = (item.get("description") or item.get("text") or "").strip()
+    if not text:
+        return
+    lines = [title, ""]
+    created = parse_time(item.get("creationTime"))
+    if created:
+        lines.append(f"Publié le : {created.astimezone():%d/%m/%Y %H:%M}")
+    due = item.get("dueDate")
+    if due:
+        hour = item.get("dueTime", {})
+        lines.append(
+            f"À rendre le : {due['day']:02d}/{due['month']:02d}/{due['year']}"
+            + (f" {hour.get('hours', 0):02d}:{hour.get('minutes', 0):02d} (UTC)" if hour else "")
+        )
+    if item.get("maxPoints"):
+        lines.append(f"Points : {item['maxPoints']:g}")
+    if item.get("alternateLink"):
+        lines.append(f"Lien Classroom : {item['alternateLink']}")
+    lines += ["", text, ""]
+    post_dir.mkdir(parents=True, exist_ok=True)
+    (post_dir / "enonce.txt").write_text("\n".join(lines), encoding="utf-8")
+
+
 def parse_time(value):
     if not value:
         return None
@@ -147,7 +172,7 @@ def collect_posts(classroom, course_id):
             # updateTime (et non creationTime) : un post modifié pour ajouter
             # une pièce jointe compte comme nouveau.
             updated = parse_time(item.get("updateTime") or item.get("creationTime"))
-            posts.append((title, item.get("materials", []), updated))
+            posts.append((title, item.get("materials", []), updated, item))
     return posts
 
 
@@ -278,10 +303,11 @@ def main():
     for course in courses:
         course_dir = dest / course_folder_name(course["name"])
         print(f"- {course['name']}")
-        for title, materials, updated in collect_posts(classroom, course["id"]):
+        for title, materials, updated, item in collect_posts(classroom, course["id"]):
             if since and updated and updated < since:
                 continue
             post_dir = course_dir / safe_name(title, 80)
+            write_statement(post_dir, title, item)
             for m in materials:
                 if "driveFile" in m:
                     file_id = m["driveFile"]["driveFile"]["id"]

@@ -12,12 +12,15 @@ Bureau/Classroom/
 │   └── Cours - RAG/
 │       ├── Part 3-2- IA Générative Multimodale - RAG.pdf
 │       ├── rag.py
+│       ├── enonce.txt     # texte du post : consignes, date limite, points
 │       └── liens.txt      # vidéos YouTube et liens web du post
 └── ...
 ```
 
 - Les dossiers de cours sont renommés : le code « 5IAD G1 » est retiré et
   « - 5eme annee EMSI » est ajouté à la fin (modifiable via `COURSE_SUFFIX`).
+- Le texte de chaque post (énoncé, date limite, points) est écrit dans
+  `enonce.txt`, dans le dossier du post.
 - Les vidéos YouTube ne sont pas téléchargées : leur lien est écrit dans
   `liens.txt`, dans le dossier du post.
 - Seuls les posts publiés ou modifiés depuis le dernier lancement réussi sont
