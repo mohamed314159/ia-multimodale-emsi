@@ -12,10 +12,3 @@ wheels/
 
 # Fichiers trop lourds pour GitHub (>100 Mo)
 *.mp4
-
-# Identifiants Google (ne jamais publier)
-credentials.json
-token.json
-
-# Journal du lancement automatique
-classroom_download/dernier_lancement.log
