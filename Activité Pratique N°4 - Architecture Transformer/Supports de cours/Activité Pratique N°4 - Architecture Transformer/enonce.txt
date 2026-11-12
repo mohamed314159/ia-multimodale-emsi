@@ -1,0 +1,19 @@
+Activité Pratique N°4 - Architecture Transformer
+
+Publié le : 05/11/2026 10:33
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/ODk3ODExNzU1NTQ5/details
+
+Première Partie (Voir Notebook):
+Travail à faire `:
+- Générer une série temporelle y = sin (x), par exemple
+- Créer, entrainer Tester un Modèle RNN qui permet de prédire la valeur suivante d'une séquence de 10 éléments
+- Créer, entrainer Tester un Modèle LSTM qui permet de prédire la valeur suivante d'une séquence de 10 éléments
+- Créer, entrainer Tester un Transformer qui permet de prédire la valeur suivante d'une séquence de 10 éléments
+- Créer et tester un exemple de modèle basé sur le Transformer de type GPT (Prédire la suite d'un texte)
+- Créer et tester un exemple de modèle basé sur le Transformer de type BERT (Prédire un mot caché dans une séquence )
+
+Deuxième Partie:
+- Exercice 1 (Voir la fin du notebook)
+- Exercice 2  (Voir la fin du notebook)
+- Exercice 3 (Voir la fin du notebook)

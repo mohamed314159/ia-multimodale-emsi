@@ -1,0 +1,30 @@
+Activité Pratique N°3 - RAG Multi Modal Agentique
+
+Publié le : 29/10/2026 10:57
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/ODk2NTM4ODk4MDg2/details
+
+Objectif : Concevoir et développer une application RAG (Retrieval-Augmented Generation) multimodale et agentique capable d'extraire, d'indexer et d'interroger de façon autonome du texte et des images issus d'un document PDF.
+Étape 1 : Extraction du contenu multimodal (Textes & Images)
+Extraire le texte intégral du document PDF et le découper par page ou sous forme de fragments (chunks). Utiliser comme source documentaire l'article  Attention is all you need.pdf
+Extraire et sauvegarder les images contenues dans le document.
+Étape 2 : Vectorisation dans un espace latent commun (Embeddings)
+Charger un modèle d'embedding multimodal tel que CLIP (ex. ViT-B-32 via open_clip) pour représenter conjointement le texte et les images dans le même espace vectoriel.
+Normaliser les vecteurs d'embeddings générés pour le texte et pour les images6.
+Étape 3 : Indexation et stockage dans une base de données vectorielle
+Initialiser une base de données vectorielle (ex. ChromaDB ou FAISS).
+Calculer un identifiant de document (ex. via hachage SHA-256) pour gérer les réindexations.
+Stocker les embeddings de textes et d'images dans la base vectorielle en conservant les métadonnées associées (type de contenu, numéro de page, chemin de l'image).
+Étape 4 : Implémentation de la recherche multimodale (Retrieval)
+Développer une fonction de recherche par similarité cosinus acceptant comme requête soit du texte, soit une image1011.
+Restituer et afficher les $k$ meilleurs résultats correspondants (textes ou aperçus d'images).
+Étape 5 : Transformation du Retriever en Outil Agentique (Tool)
+Encapsuler la recherche vectorielle multimodale dans un outil (retriever_tool) utilisable par un agent IA.
+Configurer les métadonnées et la description de l'outil pour guider le modèle de langage (LLM) dans son utilisation1415.
+Étape 6 : Construction de l'Agent IA (Pattern ReAct & LangGraph)
+Définir l'architecture de l'agent articulant le cerveau (MIND via un LLM) et le corps (BODY via l'outil de recherche)1617.
+Implémenter le cycle de raisonnement ReAct (Reasoning -> Action -> Observation).
+Composer et compiler le graphe d'exécution de l'agent à l'aide d'un framework tel que LangGraph ou LangChain.
+Étape 7 : Tests et validation de l'agent RAG
+Soumettre des requêtes multimodales complexes nécessitant une recherche hybride (texte/image).
+Analyser le comportement dynamique de l'agent (décision d'appel de l'outil, récupération des contextes et génération de la réponse finale).
