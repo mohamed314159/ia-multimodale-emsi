@@ -1,0 +1,26 @@
+{
+    // Masque dans l'explorateur les fichiers créés par uv init et git,
+    // pour ne voir que les notebooks, images et données de chaque activité.
+    // Les fichiers existent toujours : uv et git continuent de fonctionner.
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/desktop.ini": true,
+        "**/__pycache__": true,
+        "**/.ipynb_checkpoints": true,
+        "**/.venv": true,
+        "**/.gitignore": true,
+        "**/.python-version": true,
+        "**/pyproject.toml": true,
+        "**/uv.lock": true,
+        "Activit*/.vscode": true,
+        "Activit*/main.py": true,
+        "Activit*/README.md": true
+    },
+    // Évite que la recherche (Ctrl+Maj+F) parcoure les environnements et les données MNIST.
+    "search.exclude": {
+        "**/.venv": true,
+        "**/data": true
+    }
+}

@@ -16,3 +16,4 @@ wheels/
 # Identifiants Google (ne jamais publier)
 credentials.json
 token.json
+classroom_download/log.txt
