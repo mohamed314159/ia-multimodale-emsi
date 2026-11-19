@@ -1,0 +1,49 @@
+Activité Pratique N°5- Agentic AI et MCP - Langchain et LangGraph
+
+Publié le : 18/11/2026 10:18
+Points : 100
+Lien Classroom : https://classroom.google.com/c/ODg4NDYyMjQ3OTQ5/a/OTAwMjA1NzE0MzA3/details
+
+A- Partie Langchain
+Ressource Vidéo : 
+Agentic AI avec Langchain : https://www.youtube.com/watch?v=Py_pgBfIbu0&authuser=0
+Agentic RAG : https://www.youtube.com/watch?v=knU0fSNOo9M
+Travail à faire :
+
+Créer un simple agent en utilisant langchain
+Ajouter une mémoire à l'agent
+Ajouter des tools à l'agent
+Utiliser d'autres tools prédéfinis : DuckDuckGo, Tavily, PythonREPLTool
+Ajouter des middlewares à l'agent : dynamic_model, dynamic_prompt, tool_error_handling, GardRails, Human In The Loop
+Créer un chatbot basé sur un RAG Agentique
+B- Partie Langgraph :
+
+Partie 1: Bases de Langgraph (https://www.youtube.com/watch?v=RVUyZ9yVthk&authuser=0)
+
+Mettre en oeuvre les concepts de de bases de langGraph
+Partie 2 : Agentic RAG (https://www.youtube.com/watch?v=LTVHV8JLY8E)
+
+Développer un chatbot Agentic RAG en utilisant LangGraph
+Tester l'application avec langGraph Studio
+Créer un e interface web streamlit pour ce chatbot
+C- Partie 3 : MCP
+
+Reprendre l'exemple de la démo
+Démo vidéo : https://www.youtube.com/watch?v=Uv68wa74uv0Objectif 
+
+Créer un serveur MCP qui expose deux tools 
+Tester le serveur MCP avec l'outil @modelcontextprotocol/inspector
+Créer un agent langchain ou langgraph qui permet d'utiliser ce serveur MCP via le protocole streamable-http
+Créer un agent N8N  qui permet d'utiliser ce serveur MCP via le protocole streamable-http
+
+D- Travail de synthèse :
+Le service après-vente d’un distributeur d’appareils électroniques souhaite automatiser deux types de demandes. La première concerne le dépannage à partir d’une question et, éventuellement, d’une photo de l’écran de l’appareil. La seconde concerne la vérification de la garantie à partir d’un numéro de série.
+Le système est piloté par un orchestrateur LangGraph. Il analyse la demande et sélectionne un agent spécialisé. Chaque demande relève d’une seule catégorie. Après le traitement, l’agent spécialisé rend la main à l’orchestrateur, qui termine l’exécution dès qu’une réponse finale est disponible. L’agent documentaire dispose d’un outil distant rag_multimodal, publié par un serveur MCP et appelé via un client MCP. Derrière cet outil, un agent RAG recherche des passages et des figures dans les manuels, puis s’appuie sur ces éléments pour produire une réponse sourcée. L’agent garantie dispose d’un outil local consulter_garantie qui interroge un registre en lecture seule.
+
+Exemple 1 — Assistance documentaire
+« Mon imprimante PX-200 affiche un voyant clignotant. Que signifie le pictogramme sur la photo jointe
+? » La photo est fournie sous la référence img_px200_01.
+Catégorie attendue documentation · Agent agent_documentaire.
+Exemple 2 — Vérification de garantie
+« Est-ce que mon imprimante est encore sous garantie ? Son numéro de série est PX200-0042. »
+Catégorie attendue garantie · Agent agent_garantie

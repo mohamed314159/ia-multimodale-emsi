@@ -1,0 +1,4 @@
+[Vidéo YouTube] Agentic AI - Implémentation avec Langchain et LangGraph - Part 1 : https://www.youtube.com/watch?v=Py_pgBfIbu0
+[Vidéo YouTube] AI Agents avec LangGraph - Part 1 : https://www.youtube.com/watch?v=RVUyZ9yVthk
+[Vidéo YouTube] Agentic RAG   Langchain   LangGraph Studio : https://www.youtube.com/watch?v=knU0fSNOo9M
+[Vidéo YouTube] MCP- Model Context Protocol - AI Agents : https://www.youtube.com/watch?v=Uv68wa74uv0
