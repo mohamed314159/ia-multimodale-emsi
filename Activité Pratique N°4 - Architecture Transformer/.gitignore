@@ -1,0 +1,10 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv
+
+# Modèles entraînés (régénérés par le notebook)
+*.pt

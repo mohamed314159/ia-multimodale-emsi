@@ -1,0 +1,19 @@
+# PostgreSQL avec l'extension pgvector
+# Démarrer : docker compose up -d
+# Arrêter  : docker compose down   (les données restent dans le volume pgdata)
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    container_name: maintidoc-pgvector
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: maintidoc
+    ports:
+      - "5433:5432"   # 5433 côté PC pour ne pas gêner un PostgreSQL déjà installé
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:

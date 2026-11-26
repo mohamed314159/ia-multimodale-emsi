@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv
+
+# Base vectorielle (régénérée par le notebook)
+chroma_db/
+
+# Clés API
+.env
+
+# Script généré par le notebook Suite 3 (non versionné)
+app_streamlit.py

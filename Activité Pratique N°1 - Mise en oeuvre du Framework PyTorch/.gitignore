@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Dataset MNIST téléchargé par les exercices 3 et 4
+data/

@@ -1,0 +1,30 @@
+[project]
+name = "projet-integrateur-maintidoc"
+version = "0.1.0"
+description = "MaintiDoc - Partie 1 : RAG agentique multimodal (LlamaIndex, PGVector, CLIP, Azure OpenAI/Ollama, Streamlit, LangChain)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # Étape 2 : extraction et indexation (LlamaIndex + PGVector)
+    "llama-index-core>=0.12",
+    "llama-index-readers-file>=0.4",
+    "llama-index-embeddings-huggingface>=0.5",
+    "llama-index-vector-stores-postgres>=0.4",
+    "pymupdf>=1.24",
+    "psycopg2-binary>=2.9",
+    "sqlalchemy>=2.0",
+    # Étape 3 : images (CLIP + descriptions par un modèle vision)
+    "sentence-transformers>=3.0",
+    "pillow>=10.0",
+    # Étapes 4 et 6 : LLM (Azure OpenAI, ou Ollama en option) et agent
+    "langchain>=1.0",
+    "langchain-openai>=1.0",
+    "langchain-ollama>=1.0",
+    # Étape 5 : interface
+    "streamlit>=1.40",
+    # Orchestration
+    "langgraph>=1.0",
+    # Outils
+    "python-dotenv>=1.0",
+    "ipykernel>=6.29",
+]

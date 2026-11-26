@@ -1,0 +1,35 @@
+[project]
+name = "ap3-rag-multimodal-agentique"
+version = "0.1.0"
+description = "Activité Pratique N°3 - RAG Multi Modal Agentique : PyMuPDF, CLIP, ChromaDB, agent ReAct avec LangGraph"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chromadb",
+    "ipykernel>=7.4.0",
+    "langchain",
+    "langchain-openai",
+    "langchain-text-splitters",
+    "langgraph",
+    "matplotlib>=3.11.2",
+    "open-clip-torch",
+    "pillow",
+    "pymupdf",
+    "python-dotenv",
+    "streamlit",
+    "mcp",
+    "langchain-mcp-adapters",
+    "torch>=2.14.1",
+]
+
+[dependency-groups]
+dev = ["nbconvert"]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu126" }]
+torchvision = [{ index = "pytorch-cu126" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
