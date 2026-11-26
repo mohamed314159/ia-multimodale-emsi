@@ -1,0 +1,12 @@
+[
+  {"id": "Figure PX200-1", "fichier": "fig_px200_panneau.png", "manuel": "manuel_px200.md", "section": "2. Panneau de commande",
+   "legende": "Panneau de commande de l'imprimante PX-200 : écran, voyants Alimentation (vert), Encre (orange), Wi-Fi (bleu), Erreur papier (rouge), boutons ON, OK, STOP."},
+  {"id": "Figure PX200-2", "fichier": "fig_px200_picto_encre.png", "manuel": "manuel_px200.md", "section": "3.1 Pictogramme « niveau d'encre »",
+   "legende": "Pictogramme goutte d'encre orange avec point d'exclamation. Voyant Encre orange clignotant = encre faible (< 10 %), fixe = cartouche vide."},
+  {"id": "Figure PX200-3", "fichier": "fig_px200_picto_bourrage.png", "manuel": "manuel_px200.md", "section": "3.2 Pictogramme « bourrage papier »",
+   "legende": "Pictogramme feuille de papier avec croix rouge et voyant Erreur papier rouge : bourrage papier."},
+  {"id": "Figure PX200-4", "fichier": "fig_px200_picto_wifi.png", "manuel": "manuel_px200.md", "section": "3.3 Pictogramme « Wi-Fi déconnecté »",
+   "legende": "Pictogramme ondes Wi-Fi bleues barrées en rouge, voyant Wi-Fi éteint : connexion sans fil perdue."},
+  {"id": "Figure SC10-1", "fichier": "fig_sc10_voyant.png", "manuel": "manuel_sc10.md", "section": "2. Voyant d'état",
+   "legende": "Scanner SC-10 vu de dessus avec son voyant d'état rouge clignotant à droite de la vitre."}
+]

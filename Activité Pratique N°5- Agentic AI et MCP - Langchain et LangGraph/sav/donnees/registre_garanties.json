@@ -1,0 +1,7 @@
+[
+  {"numero_serie": "PX200-0042", "modele": "Imprimante PX-200", "date_achat": "2025-06-14", "duree_garantie_mois": 24, "revendeur": "ElectroPlus Casablanca"},
+  {"numero_serie": "PX200-0017", "modele": "Imprimante PX-200", "date_achat": "2023-02-03", "duree_garantie_mois": 24, "revendeur": "ElectroPlus Rabat"},
+  {"numero_serie": "PX200-0108", "modele": "Imprimante PX-200", "date_achat": "2026-09-30", "duree_garantie_mois": 24, "revendeur": "Boutique en ligne"},
+  {"numero_serie": "SC10-0103", "modele": "Scanner SC-10", "date_achat": "2025-08-02", "duree_garantie_mois": 12, "revendeur": "ElectroPlus Marrakech"},
+  {"numero_serie": "SC10-0215", "modele": "Scanner SC-10", "date_achat": "2026-04-11", "duree_garantie_mois": 12, "revendeur": "Boutique en ligne"}
+]

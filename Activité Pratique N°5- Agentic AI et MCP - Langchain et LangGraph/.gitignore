@@ -1,0 +1,8 @@
+# Index vectoriels (régénérés automatiquement s'ils manquent)
+*.bin
+
+# Journaux des serveurs lancés depuis les notebooks
+*.log
+
+# Données locales du serveur `langgraph dev`
+.langgraph_api/

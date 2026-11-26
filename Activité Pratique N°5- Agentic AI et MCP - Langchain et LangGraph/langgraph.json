@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "rag_agentique": "./rag_agentique/graphe.py:graph"
+  },
+  "env": ".env"
+}
